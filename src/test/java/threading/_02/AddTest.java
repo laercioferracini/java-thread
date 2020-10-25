@@ -44,7 +44,7 @@ class AddTest {
         }
         int i = 0;
         for (Future<Integer> result : results) {
-            int value; 
+            int value;
             try {
                 value = result.get();//blocks until return value avalaible
                 System.out.println("Total: " + value);

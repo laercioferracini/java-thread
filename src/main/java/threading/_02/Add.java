@@ -1,9 +1,12 @@
 package threading._02;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 /**
@@ -22,9 +25,21 @@ public class Add implements Callable<Integer> {
     public int doAdd() throws IOException {
         int total = 0;
         String line = null;
+        List<String> lines = new ArrayList<>();
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(inFile))) {
-            while ((line = reader.readLine()) != null)
-                total += 1;
+            while ((line = reader.readLine()) != null) {
+                total++;
+                lines.add(line);
+            }
+        }
+        try (BufferedWriter writer = Files.newBufferedWriter(Paths.get("outFile.txt"))) {
+            lines.forEach(e -> {
+                try {
+                    writer.write(e);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            });
         }
         return total;
     }

@@ -1,4 +1,4 @@
-package concurrency;
+package concurrency.manualsync;
 
 /**
  * @author lferracini
@@ -6,8 +6,8 @@ package concurrency;
  * @since <pre>25/10/2020 12:46</pre>
  */
 
-public class Worker implements Runnable{
-    private BankAccount account;
+class Worker implements Runnable {
+    private final BankAccount account;
 
     public Worker(BankAccount account) {
         this.account = account;
@@ -17,7 +17,10 @@ public class Worker implements Runnable{
     public void run() {
         for (int i = 0; i < 10; i++) {
             double startBalance = account.getBalance();
-            account.deposit(10.0);
+            //synchronized blocks provides flexibility
+            synchronized (account) {
+                account.deposit(10.0);
+            }
             double endBalance = account.getBalance();
         }
     }

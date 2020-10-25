@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lferracini
@@ -21,14 +23,22 @@ public class Add implements Runnable {
     }
 
     public void doAdd() throws IOException {
-        int total = 0;
-        String line = null;
+        String line;
+        List<String> lines = new ArrayList<>();
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(inFile))) {
-            while ((line = reader.readLine()) != null)
-                total += 1;
+            while ((line = reader.readLine()) != null) {
+
+                lines.add(line);
+            }
         }
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(outFile))) {
-            writer.write("Total: " + total);
+            lines.forEach(e-> {
+                try {
+                    writer.write(e);
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            });
         }
     }
 

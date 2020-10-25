@@ -5,9 +5,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import concurrency.methodsync.BankAccount;
+import concurrency.methodsync.Worker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,8 +30,8 @@ class WorkerTest {
         account = new BankAccount(100);
     }
 
-    @Test
     @DisplayName("checking BankAccount One Thread ok")
+    @RepeatedTest(value = 100)
     void checkingBankAccountOneThread() throws InterruptedException {
         es = Executors.newFixedThreadPool(5);
         account = new BankAccount(100);
@@ -41,8 +44,8 @@ class WorkerTest {
         Assertions.assertEquals(200, account.getBalance());
     }
 
-    @Test
     @DisplayName("checking BankAccount multi Thread ok")
+    @RepeatedTest(value = 100)
     void checkingBankAccountMultiThread() throws InterruptedException {
         for (int i = 0; i < 50; i++) {
             Worker worker = new Worker(account);

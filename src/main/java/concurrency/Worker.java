@@ -19,7 +19,6 @@ public class Worker implements Runnable{
             double startBalance = account.getBalance();
             account.deposit(10.0);
             double endBalance = account.getBalance();
-            System.out.printf("end Balance:%s Start Balance: %s in %s%n", endBalance,startBalance, Thread.currentThread().getName());
         }
     }
 }

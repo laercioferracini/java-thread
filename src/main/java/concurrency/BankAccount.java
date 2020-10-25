@@ -13,11 +13,11 @@ public class BankAccount {
         this.balance = balance;
     }
 
-    public double getBalance() {
+    public synchronized double getBalance() {
         return balance;
     }
 
-    public void deposit(double amount){
+    public synchronized void deposit(double amount){
         balance += amount;
     }
 }

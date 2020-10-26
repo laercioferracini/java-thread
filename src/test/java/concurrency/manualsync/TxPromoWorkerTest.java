@@ -2,6 +2,8 @@ package concurrency.manualsync;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -23,7 +25,7 @@ class TxPromoWorkerTest {
     void depositBonusAndWithdrawal() throws InterruptedException {
         ExecutorService es = Executors.newFixedThreadPool(5);
         BankAccount account = new BankAccount(300);
-        TxPromoWorker[] workers = getWorkers(account);
+        var workers = getWorkers(account);
 
         for (TxWorker worker : workers) {
             es.submit(worker);
@@ -36,13 +38,12 @@ class TxPromoWorkerTest {
 
     }
 
-    private static TxPromoWorker[] getWorkers(BankAccount account) {
-        var workers = new TxPromoWorker[4];
-
-        workers[0] = new TxPromoWorker(account, 'd', 100);
-        workers[1] = new TxPromoWorker(account, 'd', 100);
-        workers[2] = new TxPromoWorker(account, 'd', 100);
-        workers[3] = new TxPromoWorker(account, 'w', 200);
+    private static List<TxPromoWorker> getWorkers(BankAccount account) {
+        List<TxPromoWorker> workers = new ArrayList<>();
+        workers.add(new TxPromoWorker(account, 'd', 100));
+        workers.add(new TxPromoWorker(account, 'd', 100));
+        workers.add(new TxPromoWorker(account, 'd', 100));
+        workers.add(new TxPromoWorker(account, 'w', 200));
 
         return workers;
     }
